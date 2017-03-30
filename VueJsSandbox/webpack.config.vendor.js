@@ -14,7 +14,10 @@ module.exports = (env) => {
                 'bootstrap',
                 'bootstrap/dist/css/bootstrap.css',
                 'jquery',
-                'vue'
+                'vee-validate',
+                'vue',
+                'axios',
+                'es6-promise'
             ],
         },
         module: {
