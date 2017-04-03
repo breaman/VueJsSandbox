@@ -3,7 +3,9 @@ import { Component, Lifecycle, Vue } from 'av-ts';
 import axios from 'axios';
 import { Validator } from 'vee-validate';
 
-@Component
+@Component({
+    template: '#form-template'
+})
 export default class FormComponent extends Vue {
     emailAddress: string = null;
     teamName: string = null;
@@ -13,7 +15,9 @@ export default class FormComponent extends Vue {
 
     validateName() {
         //(this.$validator.validate('teamName', this.teamName) as Promise<boolean>);
-        this.$validator.validate('teamName', this.teamName);
+        (this.$validator.validate('teamName', this.teamName) as Promise<boolean>).then((result: boolean) => {
+            this.teamNameIsValid = result;
+        });
     }
 
     validateCoupon() {
@@ -25,16 +29,15 @@ export default class FormComponent extends Vue {
     @Lifecycle created() {
         Validator.extend('verify_coupon', {
             getMessage: (field: string) => `The ${field} is not a valid coupon.`,
-            validate: (value: string) => Promise.resolve({ valid: false })
-            //validate: (value: string) => new Promise<any>(resolve => {
-            //    const validCoupons = ['SUMMER2016', 'WINTER2016', 'FALL2016'];
+            validate: (value: string) => new Promise<any>(resolve => {
+                const validCoupons = ['SUMMER2016', 'WINTER2016', 'FALL2016'];
 
-            //    setTimeout(() => {
-            //        resolve({
-            //            valid: value && !! ~validCoupons.indexOf(value.toUpperCase())
-            //        });
-            //    }, 500);
-            //})
+                setTimeout(() => {
+                    resolve({
+                        valid: value && !! ~validCoupons.indexOf(value.toUpperCase())
+                    });
+                }, 500);
+            })
         });
 
         this.$validator.attach('coupon', 'verify_coupon', this);
@@ -43,7 +46,6 @@ export default class FormComponent extends Vue {
             getMessage: (field: any) => `The ${field} is not a valid team name.`,
             validate: (value: string) => {
                 console.log('verify_team_name value', value);
-                //return Promise.resolve({ valid: false });
                 return axios.post('/api/team/validate', { teamname: value })
                     .then((result) => {
                         return Promise.resolve({ valid: result.data.valid })

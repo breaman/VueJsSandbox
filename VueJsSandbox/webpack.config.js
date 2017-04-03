@@ -14,7 +14,7 @@ module.exports = (env) => {
         resolve: {
             extensions: ['.js', '.ts'],
             alias: {
-                vue: 'vue/dist/vue.js'
+                vue: 'vue/dist/vue.esm.js'
             }
         },
         entry: { 'main': './ClientApp/boot.ts' },

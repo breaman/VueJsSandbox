@@ -1,4 +1,4 @@
-﻿<template>
+﻿<!--<template>
     <div class="row">
         <div class="col-sm-12">
             <div :class="{'has-error': errors.has('email'), 'form-group':true}">
@@ -18,6 +18,7 @@
                 </p>
                 <button @click="validateName">Validate</button>
             </div>
+            <div>{{teamNameIsValid}}</div>
         </div>
         <div class="col-sm-12">
             <div :class="{'has-error': errors.has('coupon'), 'form-group':true}">
@@ -30,6 +31,6 @@
             </div>
         </div>
     </div>
-</template>
+</template>-->
 
 <script src="./form.ts"></script>
